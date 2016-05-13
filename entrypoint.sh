@@ -1,7 +1,7 @@
 #!/bin/sh
 
-mkdir -p /host-etc/docker/certs.d/${DOMAIN}:${PORT}
-rm -rf /host-etc/docker/certs.d/${DOMAIN}:${PORT}/*
+mkdir -p /vm-etc/docker/certs.d/${DOMAIN}:${PORT}
+rm -rf /vm-etc/docker/certs.d/${DOMAIN}:${PORT}/*
 
 cp /certs/${DOMAIN}:${PORT}/cert.cert /vm-etc/docker/certs.d/${DOMAIN}:${PORT}/
 cp /certs/${DOMAIN}:${PORT}/cert.key /vm-etc/docker/certs.d/${DOMAIN}:${PORT}/
