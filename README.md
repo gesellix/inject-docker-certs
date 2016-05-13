@@ -13,12 +13,12 @@ Let's start with generating a full set of self signed certificates, along with a
 Then we need to somehow copy those certificates into the Docker VM. That's actually quite easy when thinking about some little details:
 
 - the `/Users/...` folder is already mounted from your host into the VM
-- any folder, especially thoe `/Users` folder, can be mounted from the VM into a container
+- any folder, especially the `/Users` folder, can be mounted from the VM into a container
 - other system folders like `/etc` can be mounted from the VM into a container
 
-So, the container can access both your host's file system and the VM's file system. We're going to use the container to simply copy from the host (`\certs`) to the VM (`\host-etc`). We also need to tell the Docker daemon to trust our certificates, which is why we also append our CA certificate to the VM's list of trusted certificates. Everything packaged in a Docker image, for your convenience:
+So, the container can access both your host's file system and the VM's file system. We're going to use the container to simply copy from the host (`\certs`) to the VM (`\vm-etc`). We also need to tell the Docker daemon to trust our certificates, which is why we also append our CA certificate to the VM's list of trusted certificates. Everything packaged in a Docker image, for your convenience:
 
-    docker run --rm -it -v `pwd`/certs:/certs -v /etc:/host-etc -e DOMAIN=gesellix-mac -e PORT=5000 gesellix/inject-docker-certs
+    docker run --rm -it -v `pwd`/certs:/certs -v /etc:/vm-etc -e DOMAIN=my-hostname -e PORT=5000 gesellix/inject-docker-certs
 
 What's left? Running the registry. That's what this is all about, right?
 
