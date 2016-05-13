@@ -36,6 +36,7 @@ What's left? Running the registry. That's what it's all about, right?
 
     docker run --rm -it -p 5000:5000 -v `pwd`/certs:/certs -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/my-hostname:5000/cert.cert -e REGISTRY_HTTP_TLS_KEY=/certs/my-hostname:5000/cert.key registry:2
 
+
 ### Bonus
 
 When trying the hack on Docker for Mac beta 1.10 I needed to restart the Docker daemon. With the current release _1.11.1-beta11 (build: 6974)_ that doesn't seem to be necessary anymore. If so, here's another hack to ensure that the daemon will be restarted...
@@ -46,7 +47,7 @@ The Docker VM has cron running and already provides a structure to make a task r
 
 ### Future
 
-This hack is only necessary as long as the Docker for Mac (and Windows) is in beta. The Docker maintainers will certainly find a way to make the whole setup much more convenient and less hacky.
+This hack is only necessary as long as the Docker for Mac (and Windows) is in beta. Since the VM will be clean after a restart, the method above helps to easily copy the certs back into the VM. The Docker maintainers will certainly find a way to make the whole setup much more convenient and less hacky.
 
 
 ## Contact/Contributions
