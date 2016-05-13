@@ -40,7 +40,7 @@ What's left? Running the registry. That's what it's all about, right?
 
 When trying the hack on Docker for Mac beta 1.10 I needed to restart the Docker daemon. With the current release _1.11.1-beta11 (build: 6974)_ that doesn't seem to be necessary anymore. If so, here's another hack to ensure that the daemon will be restarted...
 
-The Docker VM has cron running and already provides a structure to make a task run every 15 minutes. Instead of manually (and instantly) restart the daemon we can simply add a shell script to do it for us. The `entrypoint.sh` script is already prepared for that hack, so if need be you can simple un-comment the last two lines and use the script as image CMD. Example:
+The Docker VM has cron running and already provides a structure to make a task run every 15 minutes. Instead of manually (and instantly) restart the daemon we can simply add a shell script to do it for us. The `entrypoint.sh` script is already prepared for that hack, so if need be you can simply [un-comment the last two lines](https://github.com/gesellix/inject-docker-certs/blob/7821ff65743b0154fa3b010fff6416292d8cf862/entrypoint.sh#L10) and mount the changed script into the container like this:
 
     docker run --rm -it -v `pwd`/certs:/certs -v /etc:/vm-etc -e DOMAIN=my-hostname -e PORT=5000 -v `pwd`/entrypoint.sh:/entrypoint.sh gesellix/inject-docker-certs
 
