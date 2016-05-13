@@ -53,5 +53,5 @@ This hack is only necessary as long as the Docker for Mac (and Windows) is in be
 
 If something crazy happens after applying this hack - please leave a note at the [Docker forum thread](https://forums.docker.com/t/adding-self-signed-certificates/9761).
 
-If everything works beautifully nice and you're happy - eat a cookie for me :-)
+If everything works beautifully nice and you're happy - relax :-)
  You can also leave feedback at the forum or via Twitter [@gesellix](https://twitter.com/gesellix)!
