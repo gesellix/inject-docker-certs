@@ -1,6 +1,8 @@
 FROM alpine:edge
 MAINTAINER Tobias Gesellchen <tobias@gesellix.de> (@gesellix)
 
+RUN apk add -U openssl
+
 ENV DOMAIN example.com
 ENV PORT 5000
 
