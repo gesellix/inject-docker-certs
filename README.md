@@ -1,6 +1,6 @@
 # Inject Docker Certificates
 
-Easily add certificates to the Docker for Mac beta daemon.
+Easily add certificates to the [Docker for Mac beta](https://beta.docker.com/) daemon.
 
 See [Adding (self signed) certificates](https://forums.docker.com/t/adding-self-signed-certificates/9761) for the rough idea.
 
@@ -13,7 +13,7 @@ Let's start with generating a full set of self signed certificates, along with a
 
     DOMAIN=my-hostname PORT=5000 ./create-certs.sh
 
-You obviously can skip that step if you alread have some certificates. Please ensure that you provide the following files in the `./certs` subfolder:
+You can obviously skip that step if you alread have some certificates. Please ensure that you provide the following files in the `./certs` subfolder to make the following examples work:
 
 - ca.cert
 - cert.key
@@ -26,9 +26,9 @@ Then we need to somehow copy those certificates into the Docker VM. That's actua
 
 - the `/Users/...` folder is already mounted from your host into the VM
 - any folder, especially the `/Users` folder, can be mounted from the VM into a container
-- other system folders like `/etc` can be mounted from the VM into a container
+- system folders like `/etc` can be mounted from the VM into a container
 
-So, the container can access both your host's file system and the VM's file system. We're going to use the container to simply copy from the host (`\certs`) to the VM (`\vm-etc`). We also need to tell the Docker daemon to trust our certificates, which is why we also append our CA certificate to the VM's list of trusted certificates. Everything packaged in a Docker image, for your convenience:
+So, the container can access both your host's file system and the VM's file system. We're going to use the container to simply copy from the host (`/certs`) to the VM (`/vm-etc`). We also need to tell the Docker daemon to trust our certificates, which is why we also append our CA certificate to the VM's list of trusted certificates. Everything packaged in a Docker image, for your convenience:
 
     docker run --rm -it -v `pwd`/certs:/certs -v /etc:/vm-etc -e DOMAIN=my-hostname -e PORT=5000 gesellix/inject-docker-certs
 
@@ -39,11 +39,14 @@ What's left? Running the registry. That's what it's all about, right?
 
 ### Bonus
 
-When trying the hack on Docker for Mac beta 1.10 I needed to restart the Docker daemon. With the current release _1.11.1-beta11 (build: 6974)_ that doesn't seem to be necessary anymore. If so, here's another hack to ensure that the daemon will be restarted...
+When trying the hack on Docker for Mac beta 1.10 I needed to restart the Docker daemon. With the current release _1.11.1-beta11 (build: 6974)_ that doesn't seem to be necessary anymore. If you think you need to do so, here's another hack to ensure that the daemon will be restarted...
 
-The Docker VM has cron running and already provides a structure to make a task run every 15 minutes. Instead of manually (and instantly) restart the daemon we can simply add a shell script to do it for us. The `entrypoint.sh` script is already prepared for that hack, so if need be you can simply [un-comment the last two lines](https://github.com/gesellix/inject-docker-certs/blob/7821ff65743b0154fa3b010fff6416292d8cf862/entrypoint.sh#L10) and mount the changed script into the container like this:
+The Docker VM has `cron` running and already provides a structure to make a task run every 15 minutes. Instead of manually (and instantly) restart the daemon we can simply add a shell script to do it for us. The `entrypoint.sh` script is already prepared for that hack, so if need be you can simply [un-comment the last two lines](https://github.com/gesellix/inject-docker-certs/blob/7821ff65743b0154fa3b010fff6416292d8cf862/entrypoint.sh#L10) and mount the changed script into the container like this:
 
     docker run --rm -it -v `pwd`/certs:/certs -v /etc:/vm-etc -e DOMAIN=my-hostname -e PORT=5000 -v `pwd`/entrypoint.sh:/entrypoint.sh gesellix/inject-docker-certs
+
+The downside of that approach is that you need to wait up to 15 minutes until you can be sure that the daemon has been restarted.
+
 
 ### Future
 
