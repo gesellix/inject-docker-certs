@@ -1,3 +1,9 @@
+# Update 2016-11-30
+
+See [the faq](https://docs.docker.com/docker-for-mac/faqs/#/how-do-i-add-custom-ca-certificates) for the official way of managing your Docker for Mac certificates.
+
+_TL;DR_ Certificates in your Mac Keychain will be imported into the list of Docker trusted certificates.
+
 # Inject Docker Certificates
 
 Easily add certificates to the [Docker for Mac beta](https://beta.docker.com/) daemon.
